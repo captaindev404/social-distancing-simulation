@@ -1,0 +1,16 @@
+{
+  "name": "covid-simulation",
+  "version": "0.0.1",
+  "description": "Coronavirus simulation using p5.js",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "serve": "serve"
+  },
+  "dependencies": {
+    "serve": "^11.3.0"
+  },
+  "devDependencies": {
+    "prettier": "2.0.2"
+  }
+}
