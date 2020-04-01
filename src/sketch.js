@@ -1,15 +1,8 @@
 // CONSTANTS
-const width = 720
-const height = 400
-const NUMBER_OF_PEOPLE = 5
-
-const DIRECTION = Object.freeze({
-    NE: 'NE',
-    NW: 'NW',
-    SE: 'SE',
-    SW: 'SW',
-})
-
+const width = 1280
+const height = 740
+const NUMBER_OF_PEOPLE = 100
+const FRAME_RATE = 60
 // VARIABLES
 let peoples = []
 
@@ -18,7 +11,7 @@ function generateCrowd() {
     let crowd = []
 
     for (let i = 0; i < NUMBER_OF_PEOPLE; i++) {
-        const person = new Person(`Instance ${i}`)
+        const person = new Person(i, i == 0 ? true : undefined)
         crowd.push(person)
     }
 
@@ -29,7 +22,7 @@ function generateCrowd() {
 
 function setup() {
     createCanvas(width, height)
-    frameRate(10)
+    frameRate(FRAME_RATE)
     ellipseMode(RADIUS)
 
     peoples = generateCrowd()
@@ -41,51 +34,17 @@ function draw() {
 
     for (let person of peoples) {
         person.update()
+        person.checkCollision(peoples.filter((p) => p.id !== person.id))
         person.display()
     }
-}
 
-// GAME OBJECTS
+    const infectedCount = peoples.filter(p => p.infected).length
+    const infectedLabel = `Infected peoples: ${infectedCount}`
+    fill('red')
+    textSize(20)
+    text(infectedLabel, 10,10,110,110)
 
-const randomDirection = () => {
-    const r = Math.round(random(0, 10))
-    return r % 2 ? 1 : -1
-}
-
-class Person {
-    constructor(id) {
-        this.id = id
-        this.infected = false
-        this.xpos = random(10, width - 10)
-        this.ypos = random(10, height - 10)
-        this.rad = 10
-
-        this.xspeed = 2
-        this.yspeed = 2
-        this.xdirection = randomDirection() // Left or Right
-        this.ydirection = randomDirection() // Top to Bottom
-    }
-
-    move() {
-        this.xpos = this.xpos + this.xspeed * this.xdirection
-        this.ypos = this.ypos + this.yspeed * this.ydirection
-    }
-
-    bounceBorder() {
-        if (this.xpos > width - this.rad || this.xpos < this.rad) {
-            this.xdirection *= -1
-        }
-        if (this.ypos > height - this.rad || this.ypos < this.rad) {
-            this.ydirection *= -1
-            this.infected = true
-        }
-    }
-    update() {
-        this.bounceBorder()
-        this.move()
-    }
-    display() {
-        fill(this.infected ? 'red' : 'blue')
-        ellipse(this.xpos, this.ypos, this.rad, this.rad)
+    if(infectedCount >= 100){
+        noLoop()
     }
 }
