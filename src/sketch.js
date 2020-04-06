@@ -3,6 +3,9 @@ const width = 1280
 const height = 740
 const NUMBER_OF_PEOPLE = 100
 const FRAME_RATE = 60
+let frameCount = 0
+const ellapsedSecond = (count ) => Math.round(count / FRAME_RATE)
+
 // VARIABLES
 let peoples = []
 
@@ -11,7 +14,7 @@ function generateCrowd() {
     let crowd = []
 
     for (let i = 0; i < NUMBER_OF_PEOPLE; i++) {
-        const person = new Person(i, i == 0 ? true : undefined)
+        const person = new Person(i, i == 0 ? true : undefined, i == 0 ? 0 : undefined)
         crowd.push(person)
     }
 
@@ -32,9 +35,14 @@ function setup() {
 function draw() {
     background(200)
 
+    fill('blue')
+    textSize(20)
+    const seconds = ellapsedSecond(frameCount)
+    text(seconds, width - 100, height - 100, width - 100, height - 100)
+
     for (let person of peoples) {
-        person.update()
-        person.checkCollision(peoples.filter((p) => p.id !== person.id))
+        person.update(seconds)
+        person.checkCollision(peoples.filter((p) => p.id !== person.id), seconds)
         person.display()
     }
 
@@ -47,4 +55,5 @@ function draw() {
     if(infectedCount >= 100){
         noLoop()
     }
+    frameCount++
 }

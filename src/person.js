@@ -2,17 +2,18 @@ const INFECTED_PERSON_COLOR = 'red'
 const SANE_PERSON_COLOR = 'blue'
 const HEALED_PERSON_COLOR = 'green'
 class Person {
-    constructor(id, infected) {
+    constructor(id, infected, time) {
         this.id = id
         this.infected = infected || false
         this.xpos = random(10, width - 10)
         this.ypos = random(10, height - 10)
         this.rad = 10
-
-        this.xspeed = 2
-        this.yspeed = 2
+        this.infectedTime = time
+        this.xspeed = 1
+        this.yspeed = 1
         this.xdirection = randomDirection() // Left or Right
         this.ydirection = randomDirection() // Top to Bottom
+        this.healed = null
     }
 
     move() {
@@ -30,19 +31,35 @@ class Person {
         }
     }
 
-    checkCollision(peoples) {
-        peoples.forEach(p => {
-            checkCollision(this, p)
+    checkCollision(peoples, time) {
+        peoples.forEach((p) => {
+            checkCollision(this, p, time)
         })
     }
 
-    update() {
+    checkHealed(time) {
+        if (time > 5) {
+            debugger
+        }
+        if (time - this.infectedTime > 3) {
+            this.infected = false
+            this.healed = true
+        }
+    }
+    update(time) {
+        this.checkHealed(time)
         this.bounceBorder()
         this.move()
     }
 
     display() {
-        fill(this.infected ? INFECTED_PERSON_COLOR : SANE_PERSON_COLOR)
+        let color = SANE_PERSON_COLOR
+        if (this.infected) {
+            color = INFECTED_PERSON_COLOR
+        } else if (this.healed) {
+            color = HEALED_PERSON_COLOR
+        }
+        fill(color)
         ellipse(this.xpos, this.ypos, this.rad, this.rad)
     }
 }
