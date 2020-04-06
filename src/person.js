@@ -2,15 +2,15 @@ const INFECTED_PERSON_COLOR = 'red'
 const SANE_PERSON_COLOR = 'blue'
 const HEALED_PERSON_COLOR = 'green'
 class Person {
-    constructor(id, infected, time) {
+    constructor(id, infected, time, distancing) {
         this.id = id
         this.infected = infected || false
         this.xpos = random(10, width - 10)
         this.ypos = random(10, height - 10)
         this.rad = 10
         this.infectedTime = time
-        this.xspeed = 1
-        this.yspeed = 1
+        this.xspeed = distancing ? 0 : 1
+        this.yspeed = distancing ? 0 : 1
         this.xdirection = randomDirection() // Left or Right
         this.ydirection = randomDirection() // Top to Bottom
         this.healed = null
