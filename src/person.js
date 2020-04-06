@@ -42,9 +42,6 @@ class Person {
     }
 
     display() {
-        if(this.infected){
-            debugger
-        }
         fill(this.infected ? INFECTED_PERSON_COLOR : SANE_PERSON_COLOR)
         ellipse(this.xpos, this.ypos, this.rad, this.rad)
     }
