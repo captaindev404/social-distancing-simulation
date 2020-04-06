@@ -14,11 +14,15 @@ function generateCrowd() {
     let crowd = []
 
     for (let i = 0; i < NUMBER_OF_PEOPLE; i++) {
+        let distancing = false
+        if (i > 0) {
+            distancing = i % 8 == 0 ? true : false
+        }
         const person = new Person(
             i,
             i == 0 ? true : undefined,
             i == 0 ? 0 : undefined,
-            i % 3 == 0 ? false : true
+            distancing
         )
         crowd.push(person)
     }
@@ -59,6 +63,12 @@ function draw() {
     fill('red')
     textSize(20)
     text(infectedLabel, 10, 10, 110, 110)
+
+    const healedPeople = peoples.filter((p) => p.healed).length
+    const healedLabel = `Healed peoples: ${healedPeople}`
+    fill('green')
+    textSize(20)
+    text(healedLabel, 10, 60, 110, 160)
 
     if (infectedCount >= 100) {
         noLoop()

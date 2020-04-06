@@ -41,7 +41,7 @@ class Person {
         if (time > 5) {
             debugger
         }
-        if (time - this.infectedTime > 3) {
+        if (time - this.infectedTime > 4) {
             this.infected = false
             this.healed = true
         }
