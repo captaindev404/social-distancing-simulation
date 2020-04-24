@@ -5,7 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "serve": "serve"
+    "start": "serve"
   },
   "dependencies": {
     "serve": "^11.3.0"
